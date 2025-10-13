@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>CSCI 5607 Project 2</h1>
+<p>Once again, I went on a rabbit hole of learning other things when doing this project, including (kind of) learning html, what git is and how to use it, all in order to be able to edit my website from a local html file on my computer in VScode and update my github repository which hosts(not sure if that is the right word) the github pages to display the html file in this website you, friendly reader, are viewing. </p>
+
+</p>
+Now when it comes to the actual graphics portion of the assignment, don't worry I still spent much time hassling over the tiny details of this image class. What caused me the most issues at first was that I was using starter code Stephen provided for us, which had many lovely aspects to it. However one of the things that I did not realize about the pixel class is that every bitwise operation clamps - almost too much. Much of the code that I wrote in the image class avoids using any of the functions from the pixel class, up until a point where I got sick of repeating the same steps over again and just changed the component-wise functions for the pixel class. I actually still have not figured out the random noise, because I think I struggled with implementing random events in cpp.
+</p>
+
+</p>The link below should take you to a zip file of my project. To compile the project locally on windows, navigate to the project folder on terminal and run </p>
+<pre>
+    <code>g++ main.cpp pixel.cpp image.cpp -o image</code>
+  </pre>
+<a href="https://1drv.ms/u/c/60f83006e69da185/Ed5Ps_3GRsJNhjZBrlNLsFYBnVgpd4yv2yz9K4kHEzu-jQ?e=sIiZXJ">Project Zip</a>
+
+</p>The images below were from performing the following different effects: extracting blue channel, contrast, random dither, saturation, blur, rotation with nearest neighbor sampling and then bilinear, and scale with bilinear sampling, then edge detection. Messing up edge detection created the last "artistic image"</p>
+
+
+<figure>
+    <img src="results/eagle_blue.jpg" width = 200>
+    <figcaption>Extracting channel 2 (blue) from the eagle image.</figcaption>
+</figure>
+
+<!-- Copy-Item -Path "C:\Users\allyg\CSCI5607Project2\results\eagle_saturated.jpg" -Destination "C:\Users\allyg\CSCI5607Project2\results"
+
+-noise <factor>
+-brightness <factor>
+-contrast <factor>
+-saturation <factor>
+-->
+
+<figure>
+<img src="results/eagle_contrast.jpg" width = 200>
+<figcaption>Extracting channel 2 (blue) from the eagle image.</figcaption>
+</figure>
+
+<br>
+
+<h2>Noise</h2>
+<figure>
+    <img src="results/stromanthe_noise3.jpg" width = 400>
+    <img src="results/stromanthe_noise10.jpg" width = 400>
+    <figcaption>
+        Left: Noise level 3 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -noise 3 -output .\results\stromanthe_noise3.jpg</code></pre>) <br>
+
+        Right: Noise level 10 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -noise 10 -output .\results\stromanthe_noise10.jpg</code></pre>)
+
+    </figcaption>
+</figure>
+
+<br>
+
+<h2>Brightness</h2>
+<figure>
+    <img src="results/stromanthe_brightness.5.jpg" width = 400>
+    <img src="results/stromanthe_brightness1.5.jpg" width = 400>
+    <figcaption>
+        Left: Brightness .5 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -brightness .5 -output .\results\stromanthe_brightness.5.jpg</code></pre>) <br>
+
+        Right: Brightness 1.5 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -brightness 1.5 -output .\results\stromanthe_brightness1.5.jpg</code></pre>)
+
+    </figcaption>
+</figure>
+
+<br>
+
+<h2>Contrast</h2>
+<figure>
+    <img src="results/stromanthe_contrast.5.jpg" width = 400>
+    <img src="results/stromanthe_contrast1.5.jpg" width = 400>
+    <img src="results/stromanthe_contrast-1.5.jpg" width = 400>
+    <figcaption>
+        Left: Contrast .5 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -contrast .5 -output .\results\stromanthe_contrast.5.jpg</code></pre>) <br>
+
+        Middle: Contrast 1.5 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -contrast 1.5 -output .\results\stromanthe_contrast1.5.jpg</code></pre>)<br>
+
+        Right: Contrast -1.5 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -contrast -1.5 -output .\results\stromanthe_contrast-1.5.jpg</code></pre>). This is fun and inverts the colors!
+
+    </figcaption>
+</figure>
+
+<br>
+
+<h2>Saturation</h2>
+<figure>
+    <img src="results/Cali_saturation.5.jpg" width = 400>
+    <img src="results/Cali_saturation1.5.jpg" width = 400>
+    <figcaption>
+        Left: Saturation .5 (<pre style="display:inline-block;"><code>.\image -input .\samples\cali.jpg -saturation .5 -output .\results\Cali_saturation.5.jpg</code></pre>) <br>
+
+        Middle: Saturation 1.5 (<pre style="display:inline-block;"><code>.\image -input .\results\Cali_sample1_scale.4.4.jpg -saturation 1.5 -output .\results\Cali_saturation.5.jpg</code></pre>)<br>
+
+    </figcaption>
+</figure>
+
+<br>
+
+<!-- -crop <x> <y> <width> <height> -->
+<h2>Crop</h2>
+<figure>
+    <img src="results/Cali_cropped.jpg" width = 400>
+    <figcaption>
+        The Cali photo cropped to be just her pretty little face. (<pre style="display:inline-block;"><code>.\image -input .\results\Cali_sample1_scale.4.4.jpg -crop 100 600 500 600 -output .\results\Cali_cropped.jpg</code></pre>)
+    </figcaption>
+</figure>
+
+<br>
+    
+<!-- -extractChannel <channel no> -->
+    <h2>extractChannel</h2>
+    <figure>
+        <img src="results/Cali_green.jpg" width = 400>
+        <figcaption>
+            Cali is the grinch now (<pre style="display:inline-block;"><code>..\image -input .\results\Cali_sample1_scale.4.4.jpg -extractChannel 2 -output .\results\Cali_green.jpg</code></pre>) <br>
+    
+        </figcaption>
+    </figure>
+    
+    <br>
+    
+<!-- -quantize <nbits> -->
+<h2>Quantization</h2>
+<figure>
+    <img src="results/Cali_quant1.jpg" width = 400>
+    <img src="results/Cali_quant3.jpg" width = 400>
+    <figcaption>
+        Left: One bit kitty (<pre style="display:inline-block;"><code>.\image -input .\results\Cali_sample1_scale.4.4.jpg -quantize 1 -output .\results\Cali_quant1.jpg</code></pre>) <br>
+
+        Right: Three bit kitty (<pre style="display:inline-block;"><code>.\image -input .\results\Cali_sample1_scale.4.4.jpg -quantize 3 -output .\results\Cali_quant3.jpg</code></pre>)
+
+    </figcaption>
+</figure>
+
+<br>
+
+<!-- -randomDither <nbits> -->
+    <h2>Random dither</h2>
+    <figure>
+        <img src="results/Cali_randomDither2.jpg" width = 400>
+    </figure>
+    
+    <br>
+    
+<!-- -blur <maskSize> -->
+    <h2>Gaussian Blur</h2>
+    <figure>
+        <img src="results/Cali_sample1_scale.4.4.jpg" width = 400>
+        <img src="results/Cali_blur2twice.jpg" width = 400>
+        <figcaption>
+            Left: Original(ish) Image, I scaled it down with the scale function before applying any of the transformations because the high pixel from my phone was too much memory. <br>
+    
+            Right: 2x2 blur applied twice.
+    
+        </figcaption>
+    </figure>
+    
+    <br>
+    
+<!-- -sharpen <maskSize> -->
+    <h2>Sharpen</h2>
+    <figure>
+        <img src="results/stromanthe_sharpen3.jpg" width = 400>
+        <figcaption>
+            Sharpened by interpolating away from an evenly blurred image genererated with a 3x3 kernel of ones.
+        </figcaption>
+    </figure>
+    
+    <br>
+    
+<!-- -edgeDetect -->
+<h2>Edge Detection</h2>
+<figure>
+    <img src="results/JellyFish_edgeDetect.jpg" width = 400>
+    <figcaption>
+        <pre style="display:inline-block;"><code>.\image -input .\samples\JellyFish.jpg -edgeDetect -output .\results\JellyFish_edgeDetect.jpg</code></pre>
+    </figcaption>
+</figure>
+
+<br>
+
+<!-- -orderedDither <nbits> -->
+    <h2>Ordered Dither</h2>
+    <figure>
+        <img src="results/Cali_orderedDither2.jpg" width = 400>
+        <figcaption>
+            Ordered dither to 2 bits (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -noise 3 -output .\results\stromanthe_noise3.jpg</code></pre>)
+
+        </figcaption>
+    </figure>
+    
+    <br>
+
+<!-- -FloydSteinbergDither <nbits> -->
+    <h2>Floyd Steinberg Dither</h2>
+    <figure>
+        <img src="results/Cali_floyd1.jpg" width = 400>
+        <figcaption>
+            The original high pixel image before I scaled it down for all of the other results, dithered to one bit.
+        </figcaption>
+    </figure>
+    
+    <br>
+    
+<!-- -scale <sx> <sy> -->
+    <h2>Scale</h2>
+    <figure>
+        <img src="Cali.jpg" width = 400>
+        <img src="results/Cali_sample1_scale.4.4.jpg" width = 400>
+        <figcaption>
+            Left: Original jpeg taken by my phone camera which had too many pixels that I did not want to wait to run. <br>
+    
+            Right: Left image scaled by .4 .4
+    
+        </figcaption>
+    </figure>
+    
+    <br>
+    
+<!-- -rotate <angle> -->
+    <h2>Rotate</h2>
+    <figure>
+        <img src="results/stromanthe_rotated0.jpg" width = 400>
+        <img src="results/stromanthe_noise10.jpg" width = 400>
+        <figcaption>
+            Left: Rotation with nearest neighbor sampling. <br>
+    
+            Right: Noise level 10 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -noise 10 -output .\results\stromanthe_noise10.jpg</code></pre>)
+    
+        </figcaption>
+    </figure>
+    
+    <br>
+    
+<!-- -fun -->
+<h2>Saturation</h2>
+<figure>
+    <img src="results/stromanthe_noise3.jpg" width = 400>
+    <img src="results/stromanthe_noise10.jpg" width = 400>
+    <figcaption>
+        Left: Noise level 3 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -noise 3 -output .\results\stromanthe_noise3.jpg</code></pre>) <br>
+
+        Right: Noise level 10 (<pre style="display:inline-block;"><code>.\image -input .\samples\stromanthe.jpg -noise 10 -output .\results\stromanthe_noise10.jpg</code></pre>)
+
+    </figcaption>
+</figure>
+
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+    <img src="results/stromanthe_noise10.jpg" width = 200>
+    <figcaption>
+        <pre>
+        <code>.\image -input .\samples\stromanthe.jpg -noise 10 -output .\results\stromanthe_noise10.jpg</code>
+      </pre>
+    </figcaption>
+</figure>
+
+</body>
+</html> 
